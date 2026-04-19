@@ -50,7 +50,7 @@ public class AuthServiceImpl implements AuthService{
 		UserEntity user = userAdapter.findUserByEmail(request.getEmail());
 
 	    if (user == null) {
-	        throw new AuthException(USER_NOT_FOUND);
+	        throw new AuthException(INVALID_CREDENTIALS);
 	    }
 
 	    if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
