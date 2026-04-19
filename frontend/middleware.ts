@@ -1,32 +1,48 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 import { jwtDecode } from "jwt-decode";
-import type { JwtPayload } from "@/types/jwt";
+import { NextRequest, NextResponse } from "next/server";
+import { JwtPayload } from "./types/jwt";
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("token")?.value;
-
   const { pathname } = request.nextUrl;
 
   const isDashboard = pathname.startsWith("/dashboard");
   const isAdmin = pathname.startsWith("/admin");
+  const isLogin = pathname.startsWith("/login");
+  const isRegister = pathname.startsWith("/register");
 
-  // ❌ Not logged in → redirect
+  // ❌ Not logged in → protect private routes
   if ((isDashboard || isAdmin) && !token) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // If token exists, validate role
+  // ❌ Logged in → block auth pages (LOGIN / REGISTER)
+  if ((isLogin || isRegister) && token) {
+    try {
+      const decoded = jwtDecode<JwtPayload>(token);
+
+      if (decoded.role === "ADMIN") {
+        return NextResponse.redirect(new URL("/admin", request.url));
+      }
+
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    } catch (err) {
+      // invalid token → clear and allow login page
+      const res = NextResponse.next();
+      res.cookies.delete("token");
+      return res;
+    }
+  }
+
+  // Role-based access control
   if (token) {
     try {
       const decoded = jwtDecode<JwtPayload>(token);
 
-      // ❌ Block non-admins from admin routes
       if (isAdmin && decoded.role !== "ADMIN") {
         return NextResponse.redirect(new URL("/dashboard", request.url));
       }
     } catch (err) {
-      // ❌ Invalid token → force login
       const res = NextResponse.redirect(new URL("/login", request.url));
       res.cookies.delete("token");
       return res;
@@ -35,8 +51,3 @@ export function middleware(request: NextRequest) {
 
   return NextResponse.next();
 }
-
-// Optional but recommended: limit middleware scope
-export const config = {
-  matcher: ["/dashboard/:path*", "/admin/:path*"],
-};
