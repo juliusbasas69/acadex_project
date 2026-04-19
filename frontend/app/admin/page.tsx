@@ -16,7 +16,7 @@ export default function AdminDashboard() {
         onClick={handleLogout}
         className="px-4 py-2 bg-red-600 text-white rounded"
       >
-        Logout
+        Logouts
       </button>
     </div>
   );
