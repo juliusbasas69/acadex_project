@@ -1,6 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import { NextRequest, NextResponse } from "next/server";
-import { JwtPayload } from "./types/jwt";
+import { JwtPayload } from "./types/JwtPayLoad";
 import { ROLES } from "@/contants/roles";
 
 export function middleware(request: NextRequest) {

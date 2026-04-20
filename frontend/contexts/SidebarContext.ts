@@ -1,10 +1,10 @@
 import { createContext } from "react";
 
-export type SidebarContextType = {
+export type SidebarContext = {
   open: boolean;
   setOpen: (value: boolean) => void;
 };
 
-export const SidebarContext = createContext<SidebarContextType | undefined>(
+export const SidebarContext = createContext<SidebarContext | undefined>(
   undefined,
 );

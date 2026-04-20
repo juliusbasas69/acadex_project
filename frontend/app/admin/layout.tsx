@@ -8,9 +8,9 @@ import { SidebarProvider } from "@/providers/SidebarProvider";
 
 export default function AdminLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <SidebarProvider>
       <div className="w-full flex flex-col min-h-screen bg-green-50">

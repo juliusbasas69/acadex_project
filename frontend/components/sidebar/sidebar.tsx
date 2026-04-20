@@ -24,9 +24,14 @@ import { PERMISSIONS } from "@/contants/permissions";
 import { useAuth } from "@/hooks/useAuth";
 import { canAccess } from "@/lib/rbac/canAccess";
 import { Role } from "@/contants/roles";
+import { getUserFromToken } from "@/lib/jwt";
 
 export default function Sidebar() {
   const { open, setOpen } = useSidebar();
+
+  const { getCurrentUser } = useAuth();
+
+  const user = getCurrentUser();
 
   const pathname = usePathname();
 
@@ -128,10 +133,9 @@ export default function Sidebar() {
   const filteredMenu = menu
     .map((section) => ({
       ...section,
-      items: section.items.filter((item) => {
-        // if no permission defined → allow by default (optional)
-        if (!item.permission) return true;
-      }),
+      items: section.items.filter((item) =>
+        user?.role ? canAccess(user.role, item.permission) : false,
+      ),
     }))
     .filter((section) => section.items.length > 0);
 
