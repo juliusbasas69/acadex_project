@@ -19,54 +19,124 @@ import {
   ChevronLeft,
   Menu,
 } from "lucide-react";
+import { useSidebar } from "@/hooks/useSidebar";
+import { PERMISSIONS } from "@/contants/permissions";
+import { useAuth } from "@/hooks/useAuth";
+import { canAccess } from "@/lib/rbac/canAccess";
+import { Role } from "@/contants/roles";
 
 export default function Sidebar() {
-  const [open, setOpen] = useState(false); // closed initially
+  const { open, setOpen } = useSidebar();
+
   const pathname = usePathname();
 
   const menu = [
     {
       title: "Overview",
       items: [
-        { name: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
-        { name: "Notifications", icon: Bell, path: "/notifications" },
+        {
+          name: "Dashboard",
+          icon: LayoutDashboard,
+          path: "/dashboard",
+          permission: PERMISSIONS.VIEW_DASHBOARD,
+        },
+        {
+          name: "Notifications",
+          icon: Bell,
+          path: "/notifications",
+          permission: PERMISSIONS.VIEW_NOTIFICATIONS,
+        },
       ],
     },
     {
       title: "Academics",
       items: [
-        { name: "Course", icon: Book, path: "/course" },
-        { name: "Calendar", icon: Calendar, path: "/calendar" },
-        { name: "Assignments", icon: FileText, path: "/assignments" },
-        { name: "Learning Materials", icon: Folder, path: "/materials" },
-        { name: "Practical Coding", icon: Code, path: "/coding" },
-        { name: "Files", icon: Folder, path: "/files" },
+        {
+          name: "Course",
+          icon: Book,
+          path: "/course",
+          permission: PERMISSIONS.VIEW_COURSE,
+        },
+        {
+          name: "Calendar",
+          icon: Calendar,
+          path: "/calendar",
+          permission: PERMISSIONS.VIEW_COURSE,
+        },
+        {
+          name: "Assignments",
+          icon: FileText,
+          path: "/assignments",
+          permission: PERMISSIONS.VIEW_ASSIGNMENTS,
+        },
+        {
+          name: "Learning Materials",
+          icon: Folder,
+          path: "/materials",
+          permission: PERMISSIONS.VIEW_COURSE,
+        },
+        {
+          name: "Practical Coding",
+          icon: Code,
+          path: "/coding",
+          permission: PERMISSIONS.USE_WORKSPACE,
+        },
+        {
+          name: "Files",
+          icon: Folder,
+          path: "/files",
+          permission: PERMISSIONS.VIEW_COURSE,
+        },
       ],
     },
     {
       title: "Development",
-      items: [{ name: "Workspace", icon: Briefcase, path: "/workspace" }],
+      items: [
+        {
+          name: "Workspace",
+          icon: Briefcase,
+          path: "/workspace",
+          permission: PERMISSIONS.USE_WORKSPACE,
+        },
+      ],
     },
     {
       title: "Support",
       items: [
-        { name: "Support", icon: LifeBuoy, path: "/support" },
-        { name: "Report", icon: AlertTriangle, path: "/report" },
-        { name: "Updates", icon: RefreshCw, path: "/updates" },
+        {
+          name: "Support",
+          icon: LifeBuoy,
+          path: "/support",
+          permission: PERMISSIONS.VIEW_DASHBOARD,
+        },
+        {
+          name: "Report",
+          icon: AlertTriangle,
+          path: "/report",
+          permission: PERMISSIONS.VIEW_DASHBOARD,
+        },
+        {
+          name: "Updates",
+          icon: RefreshCw,
+          path: "/updates",
+          permission: PERMISSIONS.VIEW_DASHBOARD,
+        },
       ],
     },
   ];
 
+  const filteredMenu = menu
+    .map((section) => ({
+      ...section,
+      items: section.items.filter((item) => {
+        // if no permission defined → allow by default (optional)
+        if (!item.permission) return true;
+      }),
+    }))
+    .filter((section) => section.items.length > 0);
+
   return (
     <>
-      {/* OPEN BUTTON */}
-      <button
-        onClick={() => setOpen(true)}
-        className="fixed top-4 left-4 z-40 text-black border border-gray-300 p-1 rounded-lg shadow-lg hover:bg-green-50 hover:scale-105 transition cursor-pointer"
-      >
-        <Menu />
-      </button>
-
       {/* OVERLAY */}
       {open && (
         <div
@@ -99,7 +169,7 @@ export default function Sidebar() {
 
         {/* Menu */}
         <div className="flex-1 overflow-y-auto">
-          {menu.map((section, i) => (
+          {filteredMenu.map((section, i) => (
             <div key={i} className="mb-4">
               <p className="text-xs text-gray-400 mb-2 uppercase">
                 {section.title}

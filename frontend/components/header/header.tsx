@@ -2,12 +2,21 @@
 
 import Image from "next/image";
 import { Bell, Activity, ListTodo } from "lucide-react";
+import { useSidebar } from "@/hooks/useSidebar";
 
 export default function Header() {
+  const { setOpen } = useSidebar();
+
   return (
-    <header className="w-full bg-white border-b-2 flex items-center p-3 border-gray-300">
+    <header className="w-full bg-white border-b-2 flex items-center py-1 px-3 border-gray-300">
       {/* LEFT */}
-      <div className="flex items-center gap-3 flex-1 ml-12">
+      <div className="flex items-center gap-3 flex-1 ">
+        <button
+          onClick={() => setOpen(true)}
+          className="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 hover:bg-green-100 transition text-lg cursor-pointer"
+        >
+          ☰
+        </button>
         <h1 className="text-md font-semibold text-gray-700">
           University of Cebu - Main Campus
         </h1>

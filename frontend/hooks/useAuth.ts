@@ -4,7 +4,9 @@ import { useRouter } from "next/navigation";
 import { authService } from "@/services/auth.service";
 import { getUserFromToken } from "@/lib/jwt";
 import { LoginRequest } from "@/types/LoginRequest";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { User } from "@/types/User";
+import { ROLES } from "@/contants/roles";
 
 export const useAuth = () => {
   const router = useRouter();
@@ -18,9 +20,9 @@ export const useAuth = () => {
 
       document.cookie = `token=${res.token}; path=/; max-age=86400`;
 
-      const user = getUserFromToken(res.token);
+      const decodedUser = getUserFromToken(res.token);
 
-      if (user?.role === "ADMIN") {
+      if (decodedUser?.role === ROLES.ADMIN) {
         router.push("/admin");
       } else {
         router.push("/dashboard");

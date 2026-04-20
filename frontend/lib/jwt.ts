@@ -1,8 +1,24 @@
 import { jwtDecode } from "jwt-decode";
+import { User } from "@/types/User";
+import { Role } from "@/contants/roles";
 
-export const getUserFromToken = (token: string) => {
+type JwtPayload = {
+  sub: string;
+  email: string;
+  role: Role;
+  iat: number;
+  exp: number;
+};
+
+export const getUserFromToken = (token: string): User | null => {
   try {
-    return jwtDecode<{ sub: string; role: string }>(token);
+    const decoded = jwtDecode<JwtPayload>(token);
+
+    return {
+      id: decoded.sub,
+      email: decoded.email,
+      role: decoded.role,
+    };
   } catch {
     return null;
   }

@@ -1,6 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 import { NextRequest, NextResponse } from "next/server";
 import { JwtPayload } from "./types/jwt";
+import { ROLES } from "@/contants/roles";
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("token")?.value;
@@ -21,7 +22,7 @@ export function middleware(request: NextRequest) {
     try {
       const decoded = jwtDecode<JwtPayload>(token);
 
-      if (decoded.role === "ADMIN") {
+      if (decoded.role === ROLES.ADMIN) {
         return NextResponse.redirect(new URL("/admin", request.url));
       }
 
@@ -39,7 +40,7 @@ export function middleware(request: NextRequest) {
     try {
       const decoded = jwtDecode<JwtPayload>(token);
 
-      if (isAdmin && decoded.role !== "ADMIN") {
+      if (isAdmin && decoded.role !== ROLES.ADMIN) {
         return NextResponse.redirect(new URL("/dashboard", request.url));
       }
     } catch (err) {
