@@ -1,6 +1,6 @@
 import { jwtDecode } from "jwt-decode";
-import { User } from "@/types/User";
-import { JwtPayload } from "@/types/JwtPayLoad";
+import { User } from "@/types/Entities";
+import { JwtPayload } from "@/types/PayLoad";
 
 export const getUserFromToken = (token: string): User | null => {
   try {

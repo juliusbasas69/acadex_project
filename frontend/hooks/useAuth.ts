@@ -3,10 +3,9 @@
 import { useRouter } from "next/navigation";
 import { authService } from "@/services/auth.service";
 import { getUserFromToken } from "@/lib/jwt";
-import { LoginRequest } from "@/types/LoginRequest";
+import { LoginRequest } from "@/types/Request";
 import { useState } from "react";
-import { ROLES } from "@/contants/roles";
-import { User } from "@/types/User";
+import { User } from "@/types/Entities";
 
 export const useAuth = () => {
   const router = useRouter();
@@ -25,11 +24,7 @@ export const useAuth = () => {
 
       if (!decodedUser) throw new Error("Invalid Token");
 
-      if (decodedUser?.role === ROLES.ADMIN) {
-        router.push("/admin");
-      } else {
-        router.push("/dashboard");
-      }
+      router.push("/");
     } finally {
       setLoading(false);
     }

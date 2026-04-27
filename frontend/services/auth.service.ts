@@ -1,7 +1,7 @@
 import { api } from "@/lib/axios";
 import axios from "axios";
 import { ERROR_MESSAGES } from "@/contants/errors";
-import { LoginRequest } from "@/types/LoginRequest";
+import { LoginRequest } from "@/types/Request";
 
 export const authService = {
   async login(request: LoginRequest) {

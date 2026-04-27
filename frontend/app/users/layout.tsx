@@ -3,7 +3,7 @@
 import Sidebar from "@/components/sidebar/sidebar";
 import Header from "@/components/header/header";
 import Breadcrumb from "@/components/header/Breadcrumb";
-import "../globals.css";
+import "@/app/globals.css";
 import { SidebarProvider } from "@/providers/SidebarProvider";
 
 export default function AdminLayout({
@@ -13,7 +13,7 @@ export default function AdminLayout({
 }) {
   return (
     <SidebarProvider>
-      <div className="w-full flex flex-col min-h-screen bg-green-50">
+      <div className="w-full flex flex-col min-h-screen">
         <Sidebar />
         <Header />
         <Breadcrumb />

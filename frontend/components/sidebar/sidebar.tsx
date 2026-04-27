@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import {
   LayoutDashboard,
   Bell,
+  Megaphone,
+  BarChart3,
   Book,
   Calendar,
   FileText,
@@ -17,7 +19,25 @@ import {
   RefreshCw,
   LogOut,
   ChevronLeft,
-  Menu,
+  GraduationCap,
+  ClipboardCheck,
+  FolderGit2,
+  Upload,
+  Users,
+  Shield,
+  Key,
+  Building2,
+  Library,
+  Files,
+  Activity,
+  Eye,
+  FileSearch,
+  Gauge,
+  AlertCircle,
+  MessageSquare,
+  Settings,
+  Lock,
+  DatabaseBackup,
 } from "lucide-react";
 import { useSidebar } from "@/hooks/useSidebar";
 import { PERMISSIONS } from "@/contants/permissions";
@@ -51,15 +71,28 @@ export default function Sidebar() {
           path: "/notifications",
           permission: PERMISSIONS.VIEW_NOTIFICATIONS,
         },
+        {
+          name: "Announcements",
+          icon: Megaphone,
+          path: "/announcements",
+          permission: PERMISSIONS.VIEW_NOTIFICATIONS,
+        },
+        {
+          name: "Reports Summary",
+          icon: BarChart3,
+          path: "/reports-summary",
+          permission: PERMISSIONS.VIEW_REPORTS,
+        },
       ],
     },
+
     {
       title: "Academics",
       items: [
         {
-          name: "Course",
+          name: "Courses",
           icon: Book,
-          path: "/course",
+          path: "/courses",
           permission: PERMISSIONS.VIEW_COURSE,
         },
         {
@@ -81,19 +114,26 @@ export default function Sidebar() {
           permission: PERMISSIONS.VIEW_COURSE,
         },
         {
+          name: "Grades",
+          icon: GraduationCap,
+          path: "/grades",
+          permission: PERMISSIONS.VIEW_GRADES,
+        },
+        {
+          name: "Attendance",
+          icon: ClipboardCheck,
+          path: "/attendance",
+          permission: PERMISSIONS.VIEW_ATTENDANCE,
+        },
+        {
           name: "Practical Coding",
           icon: Code,
           path: "/coding",
           permission: PERMISSIONS.USE_WORKSPACE,
         },
-        {
-          name: "Files",
-          icon: Folder,
-          path: "/files",
-          permission: PERMISSIONS.VIEW_COURSE,
-        },
       ],
     },
+
     {
       title: "Development",
       items: [
@@ -103,19 +143,110 @@ export default function Sidebar() {
           path: "/workspace",
           permission: PERMISSIONS.USE_WORKSPACE,
         },
+        {
+          name: "Projects",
+          icon: FolderGit2,
+          path: "/projects",
+          permission: PERMISSIONS.USE_WORKSPACE,
+        },
+        {
+          name: "Submissions",
+          icon: Upload,
+          path: "/submissions",
+          permission: PERMISSIONS.USE_WORKSPACE,
+        },
       ],
     },
+
+    {
+      title: "Management",
+      items: [
+        {
+          name: "User Management",
+          icon: Users,
+          path: "/users",
+          permission: PERMISSIONS.VIEW_USERS,
+        },
+        {
+          name: "Role Management",
+          icon: Shield,
+          path: "/roles",
+          permission: PERMISSIONS.MANAGE_ROLES,
+        },
+        {
+          name: "Permission Management",
+          icon: Key,
+          path: "/permissions",
+          permission: PERMISSIONS.MANAGE_PERMISSIONS,
+        },
+        {
+          name: "Department Management",
+          icon: Building2,
+          path: "/departments",
+          permission: PERMISSIONS.MANAGE_DEPARTMENTS,
+        },
+        {
+          name: "Course Management",
+          icon: Library,
+          path: "/course-management",
+          permission: PERMISSIONS.MANAGE_COURSE,
+        },
+        {
+          name: "Content Management",
+          icon: Files,
+          path: "/content-management",
+          permission: PERMISSIONS.MANAGE_CONTENT,
+        },
+      ],
+    },
+
+    {
+      title: "Monitoring",
+      items: [
+        {
+          name: "System Monitoring",
+          icon: Activity,
+          path: "/monitoring/system",
+          permission: PERMISSIONS.VIEW_SYSTEM_MONITORING,
+        },
+        {
+          name: "User Activity Logs",
+          icon: Eye,
+          path: "/monitoring/logs",
+          permission: PERMISSIONS.VIEW_LOGS,
+        },
+        {
+          name: "Audit Trail",
+          icon: FileSearch,
+          path: "/monitoring/audit",
+          permission: PERMISSIONS.VIEW_AUDIT_LOGS,
+        },
+        {
+          name: "Performance",
+          icon: Gauge,
+          path: "/monitoring/performance",
+          permission: PERMISSIONS.VIEW_SYSTEM_MONITORING,
+        },
+        {
+          name: "Errors",
+          icon: AlertCircle,
+          path: "/monitoring/errors",
+          permission: PERMISSIONS.VIEW_SYSTEM_MONITORING,
+        },
+      ],
+    },
+
     {
       title: "Support",
       items: [
         {
-          name: "Support",
+          name: "Support Tickets",
           icon: LifeBuoy,
           path: "/support",
           permission: PERMISSIONS.VIEW_DASHBOARD,
         },
         {
-          name: "Report",
+          name: "Report Issue",
           icon: AlertTriangle,
           path: "/report",
           permission: PERMISSIONS.VIEW_DASHBOARD,
@@ -125,6 +256,36 @@ export default function Sidebar() {
           icon: RefreshCw,
           path: "/updates",
           permission: PERMISSIONS.VIEW_DASHBOARD,
+        },
+        {
+          name: "Feedback",
+          icon: MessageSquare,
+          path: "/feedback",
+          permission: PERMISSIONS.VIEW_DASHBOARD,
+        },
+      ],
+    },
+
+    {
+      title: "Settings",
+      items: [
+        {
+          name: "General Settings",
+          icon: Settings,
+          path: "/settings",
+          permission: PERMISSIONS.MANAGE_SETTINGS,
+        },
+        {
+          name: "Security Settings",
+          icon: Lock,
+          path: "/settings/security",
+          permission: PERMISSIONS.MANAGE_SETTINGS,
+        },
+        {
+          name: "Backup & Restore",
+          icon: DatabaseBackup,
+          path: "/settings/backup",
+          permission: PERMISSIONS.MANAGE_SETTINGS,
         },
       ],
     },
@@ -184,15 +345,16 @@ export default function Sidebar() {
                 const isActive = pathname === item.path;
 
                 return (
-                  <div
+                  <Link
                     key={j}
-                    className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer transition relative
+                    href={item.path}
+                    onClick={() => setOpen(false)}
+                    className={`flex items-center gap-3 p-2 rounded-lg transition relative
                     ${
                       isActive
                         ? "bg-green-100 text-green-700 font-medium"
                         : "hover:bg-green-50 text-gray-700"
-                    }
-                  `}
+                    }`}
                   >
                     {/* GREEN LINE */}
                     {isActive && (
@@ -201,7 +363,7 @@ export default function Sidebar() {
 
                     <Icon size={18} />
                     <span className="text-sm">{item.name}</span>
-                  </div>
+                  </Link>
                 );
               })}
             </div>
@@ -209,10 +371,10 @@ export default function Sidebar() {
         </div>
 
         {/* Logout */}
-        <button className="mt-auto flex items-center justify-center gap-2 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 hover:scale-105 transition">
+        {/* <button className="mt-auto flex items-center justify-center gap-2 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 hover:scale-105 transition">
           <LogOut size={18} />
           Logout
-        </button>
+        </button> */}
       </aside>
     </>
   );

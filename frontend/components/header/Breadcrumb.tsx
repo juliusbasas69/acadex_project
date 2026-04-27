@@ -13,7 +13,7 @@ export default function Breadcrumb() {
   };
 
   return (
-    <div className="w-full bg-white border-b border-gray-200 px-6 py-2 flex items-center justify-between">
+    <div className="max-w-7xl mx-auto w-full bg-white border-b border-gray-200 px-6 py-2 flex items-center justify-between mt-6 rounded-md shadow-md">
       {/* LEFT - BREADCRUMB */}
       <div className="flex items-center text-sm text-gray-600">
         <div className="flex items-center gap-1 hover:text-gray-900 cursor-pointer">

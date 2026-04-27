@@ -3,12 +3,13 @@
 import Image from "next/image";
 import { Bell, Activity, ListTodo } from "lucide-react";
 import { useSidebar } from "@/hooks/useSidebar";
+import ProfileDropdown from "@/components/header/ProfileDropdown";
 
 export default function Header() {
   const { setOpen } = useSidebar();
 
   return (
-    <header className="w-full bg-white border-b-2 flex items-center py-1 px-3 border-gray-300">
+    <header className="max-w-7xl mx-auto w-full bg-white flex items-center py-1 h-16">
       {/* LEFT */}
       <div className="flex items-center gap-3 flex-1 ">
         <button
@@ -41,14 +42,8 @@ export default function Header() {
         </button>
 
         {/* PROFILE */}
-        <div className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 px-1 py-1 rounded-lg transition ml-2 border border-gray-300">
-          <Image
-            src="/logo/logo.png"
-            alt="Profile"
-            width={24}
-            height={24}
-            className="w-8 h-8 rounded-full"
-          />
+        <div className="ml-2">
+          <ProfileDropdown />
         </div>
       </div>
     </header>
