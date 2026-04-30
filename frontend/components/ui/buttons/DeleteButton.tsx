@@ -1,6 +1,10 @@
 import { Trash2 } from "lucide-react";
 
-export default function DeleteButton({ onClick }) {
+type DeleteButton = {
+  onClick?: () => void;
+};
+
+export default function DeleteButton({ onClick }: DeleteButton) {
   return (
     <button
       onClick={onClick}

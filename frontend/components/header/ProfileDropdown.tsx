@@ -35,7 +35,7 @@ export default function ProfileDropdown() {
       {/* PROFILE BUTTON */}
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 px-2 py-1 rounded-lg border border-gray-300 hover:bg-gray-100 transition cursor-pointer"
+        className="flex items-center gap-2 px-2 py-1 rounded-lg border border-gray-300 hover:bg-gray-100 transition"
       >
         <Image
           src="/logo/logo.png"
@@ -44,18 +44,20 @@ export default function ProfileDropdown() {
           height={32}
           className="rounded-full"
         />
-        <span className="text-sm font-medium text-gray-700">
+
+        {/* 👇 Hide text on mobile */}
+        <span className="hidden sm:block text-sm font-medium text-gray-700 max-w-[120px] truncate">
           {user?.email || "User"}
         </span>
       </button>
 
       {/* DROPDOWN */}
       {open && (
-        <div className="absolute right-0 mt-2 w-52 bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-hidden p-3">
+        <div className="absolute right-0 mt-2 w-48 sm:w-52 bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-hidden p-2 sm:p-3">
           {/* PROFILE */}
           <button
             onClick={() => router.push("/profile")}
-            className="w-full flex items-center gap-2 px-4 py-2 hover:bg-green-50 text-gray-700 text-sm cursor-pointer"
+            className="w-full flex items-center gap-2 px-3 py-2 hover:bg-green-50 text-gray-700 text-sm rounded-md"
           >
             <User size={16} /> Profile
           </button>
@@ -63,7 +65,7 @@ export default function ProfileDropdown() {
           {/* SETTINGS */}
           <button
             onClick={() => router.push("/settings")}
-            className="w-full flex items-center gap-2 px-4 py-2 hover:bg-green-50 text-gray-700 text-sm cursor-pointer"
+            className="w-full flex items-center gap-2 px-3 py-2 hover:bg-green-50 text-gray-700 text-sm rounded-md"
           >
             <Settings size={16} /> Settings
           </button>
@@ -71,20 +73,20 @@ export default function ProfileDropdown() {
           {/* SECURITY */}
           <button
             onClick={() => router.push("/settings/security")}
-            className="w-full flex items-center gap-2 px-4 py-2 hover:bg-green-50 text-gray-700 text-sm cursor-pointer"
+            className="w-full flex items-center gap-2 px-3 py-2 hover:bg-green-50 text-gray-700 text-sm rounded-md"
           >
             <Shield size={16} /> Security
           </button>
 
           {/* DIVIDER */}
-          <div className="border-t my-1 border-gray-300" />
+          <div className="border-t my-1 border-gray-200" />
 
           {/* LOGOUT */}
           <button
             onClick={handleLogout}
-            className="mt-1 flex items-center justify-center gap-2 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 hover:scale-101 transition w-full cursor-pointer"
+            className="mt-1 flex items-center justify-center gap-2 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition w-full text-sm"
           >
-            <LogOut size={18} />
+            <LogOut size={16} />
             Logout
           </button>
         </div>

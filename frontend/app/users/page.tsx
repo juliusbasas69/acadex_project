@@ -7,6 +7,7 @@ import ExportButton from "@/components/ui/buttons/ExportButton";
 import ExportExcelButton from "@/components/ui/buttons/ExportButton";
 import GenerateExcelButton from "@/components/ui/buttons/GenerateExcelButton";
 import ImportButton from "@/components/ui/buttons/ImportButton";
+import { ROUTES } from "@/contants/routes";
 import {
   Activity,
   Download,
@@ -22,9 +23,11 @@ import {
   UserPlus,
   Users,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function UsersPage() {
+  const router = useRouter();
   const [activeUserTab, setActiveUserTab] = useState("all");
 
   const users = [
@@ -163,9 +166,9 @@ export default function UsersPage() {
               type="text"
               placeholder="Search users..."
               className="
-        border border-gray-300 rounded-lg pl-9 pr-3 py-1.5 w-64
-        focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition
-      "
+              border border-gray-300 rounded-lg pl-9 pr-3 py-1.5 w-64
+              focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition
+            "
             />
           </div>
 
@@ -173,7 +176,9 @@ export default function UsersPage() {
           <CreateButton
             icon={<UserPlus size={16} />}
             label="Create User"
-            path="/users/create"
+            onClick={() => {
+              router.push(ROUTES.CREATE_USER);
+            }}
           />
         </div>
       </div>

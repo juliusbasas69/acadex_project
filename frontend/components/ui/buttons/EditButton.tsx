@@ -1,6 +1,10 @@
 import { Edit } from "lucide-react";
 
-export default function EditButton({ onClick }) {
+type EditButton = {
+  onClick?: () => void;
+};
+
+export default function EditButton({ onClick }: EditButton) {
   return (
     <button
       onClick={onClick}
