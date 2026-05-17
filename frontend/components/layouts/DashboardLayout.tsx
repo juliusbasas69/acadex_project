@@ -1,0 +1,24 @@
+"use client";
+
+import Sidebar from "@/components/sidebar/sidebar";
+import Header from "@/components/header/header";
+import Breadcrumb from "@/components/header/Breadcrumb";
+import "@/app/globals.css";
+import { SidebarProvider } from "@/providers/SidebarProvider";
+
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <SidebarProvider>
+      <div className="w-full flex flex-col min-h-screen">
+        <Sidebar />
+        <Header />
+        <Breadcrumb />
+        <main>{children}</main>
+      </div>
+    </SidebarProvider>
+  );
+}

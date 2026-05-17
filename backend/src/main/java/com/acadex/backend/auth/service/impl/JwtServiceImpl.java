@@ -31,7 +31,8 @@ public class JwtServiceImpl implements JwtService{
     public String generateToken(UserEntity user) {
 
         return Jwts.builder()
-                .setSubject(user.getEmail())
+                .setSubject(String.valueOf(user.getId()))
+                .claim("email", user.getEmail())
                 .claim("role", user.getRole())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))

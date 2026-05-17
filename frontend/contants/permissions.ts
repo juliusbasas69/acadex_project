@@ -1,0 +1,79 @@
+export const PERMISSIONS = {
+  // =====================
+  // OVERVIEW
+  // =====================
+  VIEW_DASHBOARD: "VIEW_DASHBOARD",
+  VIEW_NOTIFICATIONS: "VIEW_NOTIFICATIONS",
+  VIEW_REPORTS: "VIEW_REPORTS",
+
+  // =====================
+  // USERS & ROLES
+  // =====================
+  VIEW_USERS: "VIEW_USERS",
+  CREATE_USER: "CREATE_USER",
+  UPDATE_USER: "UPDATE_USER",
+  DELETE_USER: "DELETE_USER",
+
+  MANAGE_ROLES: "MANAGE_ROLES",
+  MANAGE_PERMISSIONS: "MANAGE_PERMISSIONS",
+
+  // =====================
+  // ACADEMICS
+  // =====================
+  MANAGE_COURSE: "MANAGE_COURSE",
+  VIEW_COURSE: "VIEW_COURSE",
+  CREATE_COURSE: "CREATE_COURSE",
+  UPDATE_COURSE: "UPDATE_COURSE",
+  DELETE_COURSE: "DELETE_COURSE",
+
+  VIEW_ASSIGNMENTS: "VIEW_ASSIGNMENTS",
+  CREATE_ASSIGNMENTS: "CREATE_ASSIGNMENTS",
+  GRADE_ASSIGNMENTS: "GRADE_ASSIGNMENTS",
+
+  VIEW_GRADES: "VIEW_GRADES",
+  VIEW_ATTENDANCE: "VIEW_ATTENDANCE",
+
+  // =====================
+  // WORKSPACE / DEV
+  // =====================
+  USE_WORKSPACE: "USE_WORKSPACE",
+  MANAGE_PROJECTS: "MANAGE_PROJECTS",
+  SUBMIT_PROJECTS: "SUBMIT_PROJECTS",
+
+  // =====================
+  // CONTENT / FILES
+  // =====================
+  MANAGE_CONTENT: "MANAGE_CONTENT",
+  MANAGE_FILES: "MANAGE_FILES",
+
+  // =====================
+  // ORGANIZATION
+  // =====================
+  MANAGE_DEPARTMENTS: "MANAGE_DEPARTMENTS",
+
+  // =====================
+  // SYSTEM MONITORING
+  // =====================
+  VIEW_SYSTEM_MONITORING: "VIEW_SYSTEM_MONITORING",
+  VIEW_LOGS: "VIEW_LOGS",
+  VIEW_AUDIT_LOGS: "VIEW_AUDIT_LOGS",
+  VIEW_PERFORMANCE: "VIEW_PERFORMANCE",
+  VIEW_ERRORS: "VIEW_ERRORS",
+
+  // =====================
+  // SETTINGS
+  // =====================
+  MANAGE_SETTINGS: "MANAGE_SETTINGS",
+  MANAGE_SECURITY: "MANAGE_SECURITY",
+  MANAGE_BACKUP: "MANAGE_BACKUP",
+
+  // =====================
+  // SUPPORT
+  // =====================
+  VIEW_TICKETS: "VIEW_TICKETS",
+  CREATE_TICKETS: "CREATE_TICKETS",
+  MANAGE_TICKETS: "MANAGE_TICKETS",
+  SEND_FEEDBACK: "SEND_FEEDBACK",
+} as const;
+
+export type Permission = (typeof PERMISSIONS)[keyof typeof PERMISSIONS];

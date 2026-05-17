@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import {
   LayoutDashboard,
   Bell,
+  Megaphone,
+  BarChart3,
   Book,
   Calendar,
   FileText,
@@ -17,56 +19,289 @@ import {
   RefreshCw,
   LogOut,
   ChevronLeft,
-  Menu,
+  GraduationCap,
+  ClipboardCheck,
+  FolderGit2,
+  Upload,
+  Users,
+  Shield,
+  Key,
+  Building2,
+  Library,
+  Files,
+  Activity,
+  Eye,
+  FileSearch,
+  Gauge,
+  AlertCircle,
+  MessageSquare,
+  Settings,
+  Lock,
+  DatabaseBackup,
 } from "lucide-react";
+import { useSidebar } from "@/hooks/useSidebar";
+import { PERMISSIONS } from "@/contants/permissions";
+import { useAuth } from "@/hooks/useAuth";
+import { canAccess } from "@/lib/rbac/canAccess";
+import { Role } from "@/contants/roles";
+import { getUserFromToken } from "@/lib/jwt";
 
 export default function Sidebar() {
-  const [open, setOpen] = useState(false); // closed initially
+  const { open, setOpen } = useSidebar();
+
+  const { getCurrentUser } = useAuth();
+
+  const user = getCurrentUser();
+
   const pathname = usePathname();
 
   const menu = [
     {
       title: "Overview",
       items: [
-        { name: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
-        { name: "Notifications", icon: Bell, path: "/notifications" },
+        {
+          name: "Dashboard",
+          icon: LayoutDashboard,
+          path: "/dashboard",
+          permission: PERMISSIONS.VIEW_DASHBOARD,
+        },
+        {
+          name: "Notifications",
+          icon: Bell,
+          path: "/notifications",
+          permission: PERMISSIONS.VIEW_NOTIFICATIONS,
+        },
+        {
+          name: "Announcements",
+          icon: Megaphone,
+          path: "/announcements",
+          permission: PERMISSIONS.VIEW_NOTIFICATIONS,
+        },
+        {
+          name: "Reports Summary",
+          icon: BarChart3,
+          path: "/reports-summary",
+          permission: PERMISSIONS.VIEW_REPORTS,
+        },
       ],
     },
+
     {
       title: "Academics",
       items: [
-        { name: "Course", icon: Book, path: "/course" },
-        { name: "Calendar", icon: Calendar, path: "/calendar" },
-        { name: "Assignments", icon: FileText, path: "/assignments" },
-        { name: "Learning Materials", icon: Folder, path: "/materials" },
-        { name: "Practical Coding", icon: Code, path: "/coding" },
-        { name: "Files", icon: Folder, path: "/files" },
+        {
+          name: "Courses",
+          icon: Book,
+          path: "/courses",
+          permission: PERMISSIONS.VIEW_COURSE,
+        },
+        {
+          name: "Calendar",
+          icon: Calendar,
+          path: "/calendar",
+          permission: PERMISSIONS.VIEW_COURSE,
+        },
+        {
+          name: "Assignments",
+          icon: FileText,
+          path: "/assignments",
+          permission: PERMISSIONS.VIEW_ASSIGNMENTS,
+        },
+        {
+          name: "Learning Materials",
+          icon: Folder,
+          path: "/materials",
+          permission: PERMISSIONS.VIEW_COURSE,
+        },
+        {
+          name: "Grades",
+          icon: GraduationCap,
+          path: "/grades",
+          permission: PERMISSIONS.VIEW_GRADES,
+        },
+        {
+          name: "Attendance",
+          icon: ClipboardCheck,
+          path: "/attendance",
+          permission: PERMISSIONS.VIEW_ATTENDANCE,
+        },
+        {
+          name: "Practical Coding",
+          icon: Code,
+          path: "/coding",
+          permission: PERMISSIONS.USE_WORKSPACE,
+        },
       ],
     },
+
     {
       title: "Development",
-      items: [{ name: "Workspace", icon: Briefcase, path: "/workspace" }],
+      items: [
+        {
+          name: "Workspace",
+          icon: Briefcase,
+          path: "/workspace",
+          permission: PERMISSIONS.USE_WORKSPACE,
+        },
+        {
+          name: "Projects",
+          icon: FolderGit2,
+          path: "/projects",
+          permission: PERMISSIONS.USE_WORKSPACE,
+        },
+        {
+          name: "Submissions",
+          icon: Upload,
+          path: "/submissions",
+          permission: PERMISSIONS.USE_WORKSPACE,
+        },
+      ],
     },
+
+    {
+      title: "Management",
+      items: [
+        {
+          name: "User Management",
+          icon: Users,
+          path: "/users",
+          permission: PERMISSIONS.VIEW_USERS,
+        },
+        {
+          name: "Role Management",
+          icon: Shield,
+          path: "/roles",
+          permission: PERMISSIONS.MANAGE_ROLES,
+        },
+        {
+          name: "Permission Management",
+          icon: Key,
+          path: "/permissions",
+          permission: PERMISSIONS.MANAGE_PERMISSIONS,
+        },
+        {
+          name: "Department Management",
+          icon: Building2,
+          path: "/departments",
+          permission: PERMISSIONS.MANAGE_DEPARTMENTS,
+        },
+        {
+          name: "Course Management",
+          icon: Library,
+          path: "/course-management",
+          permission: PERMISSIONS.MANAGE_COURSE,
+        },
+        {
+          name: "Content Management",
+          icon: Files,
+          path: "/content-management",
+          permission: PERMISSIONS.MANAGE_CONTENT,
+        },
+      ],
+    },
+
+    {
+      title: "Monitoring",
+      items: [
+        {
+          name: "System Monitoring",
+          icon: Activity,
+          path: "/monitoring/system",
+          permission: PERMISSIONS.VIEW_SYSTEM_MONITORING,
+        },
+        {
+          name: "User Activity Logs",
+          icon: Eye,
+          path: "/monitoring/logs",
+          permission: PERMISSIONS.VIEW_LOGS,
+        },
+        {
+          name: "Audit Trail",
+          icon: FileSearch,
+          path: "/monitoring/audit",
+          permission: PERMISSIONS.VIEW_AUDIT_LOGS,
+        },
+        {
+          name: "Performance",
+          icon: Gauge,
+          path: "/monitoring/performance",
+          permission: PERMISSIONS.VIEW_SYSTEM_MONITORING,
+        },
+        {
+          name: "Errors",
+          icon: AlertCircle,
+          path: "/monitoring/errors",
+          permission: PERMISSIONS.VIEW_SYSTEM_MONITORING,
+        },
+      ],
+    },
+
     {
       title: "Support",
       items: [
-        { name: "Support", icon: LifeBuoy, path: "/support" },
-        { name: "Report", icon: AlertTriangle, path: "/report" },
-        { name: "Updates", icon: RefreshCw, path: "/updates" },
+        {
+          name: "Support Tickets",
+          icon: LifeBuoy,
+          path: "/support",
+          permission: PERMISSIONS.VIEW_DASHBOARD,
+        },
+        {
+          name: "Report Issue",
+          icon: AlertTriangle,
+          path: "/report",
+          permission: PERMISSIONS.VIEW_DASHBOARD,
+        },
+        {
+          name: "Updates",
+          icon: RefreshCw,
+          path: "/updates",
+          permission: PERMISSIONS.VIEW_DASHBOARD,
+        },
+        {
+          name: "Feedback",
+          icon: MessageSquare,
+          path: "/feedback",
+          permission: PERMISSIONS.VIEW_DASHBOARD,
+        },
+      ],
+    },
+
+    {
+      title: "Settings",
+      items: [
+        {
+          name: "General Settings",
+          icon: Settings,
+          path: "/settings",
+          permission: PERMISSIONS.MANAGE_SETTINGS,
+        },
+        {
+          name: "Security Settings",
+          icon: Lock,
+          path: "/settings/security",
+          permission: PERMISSIONS.MANAGE_SETTINGS,
+        },
+        {
+          name: "Backup & Restore",
+          icon: DatabaseBackup,
+          path: "/settings/backup",
+          permission: PERMISSIONS.MANAGE_SETTINGS,
+        },
       ],
     },
   ];
 
+  const filteredMenu = menu
+    .map((section) => ({
+      ...section,
+      items: section.items.filter((item) =>
+        user?.role ? canAccess(user.role, item.permission) : false,
+      ),
+    }))
+    .filter((section) => section.items.length > 0);
+
   return (
     <>
-      {/* OPEN BUTTON */}
-      <button
-        onClick={() => setOpen(true)}
-        className="fixed top-4 left-4 z-40 text-black border border-gray-300 p-1 rounded-lg shadow-lg hover:bg-green-50 hover:scale-105 transition cursor-pointer"
-      >
-        <Menu />
-      </button>
-
       {/* OVERLAY */}
       {open && (
         <div
@@ -99,7 +334,7 @@ export default function Sidebar() {
 
         {/* Menu */}
         <div className="flex-1 overflow-y-auto">
-          {menu.map((section, i) => (
+          {filteredMenu.map((section, i) => (
             <div key={i} className="mb-4">
               <p className="text-xs text-gray-400 mb-2 uppercase">
                 {section.title}
@@ -110,15 +345,16 @@ export default function Sidebar() {
                 const isActive = pathname === item.path;
 
                 return (
-                  <div
+                  <Link
                     key={j}
-                    className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer transition relative
+                    href={item.path}
+                    onClick={() => setOpen(false)}
+                    className={`flex items-center gap-3 p-2 rounded-lg transition relative
                     ${
                       isActive
                         ? "bg-green-100 text-green-700 font-medium"
                         : "hover:bg-green-50 text-gray-700"
-                    }
-                  `}
+                    }`}
                   >
                     {/* GREEN LINE */}
                     {isActive && (
@@ -127,7 +363,7 @@ export default function Sidebar() {
 
                     <Icon size={18} />
                     <span className="text-sm">{item.name}</span>
-                  </div>
+                  </Link>
                 );
               })}
             </div>
@@ -135,10 +371,10 @@ export default function Sidebar() {
         </div>
 
         {/* Logout */}
-        <button className="mt-auto flex items-center justify-center gap-2 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 hover:scale-105 transition">
+        {/* <button className="mt-auto flex items-center justify-center gap-2 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 hover:scale-105 transition">
           <LogOut size={18} />
           Logout
-        </button>
+        </button> */}
       </aside>
     </>
   );

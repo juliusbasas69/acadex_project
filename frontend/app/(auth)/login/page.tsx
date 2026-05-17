@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import axios from "axios";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { useState } from "react";
@@ -18,9 +19,18 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       await login({ email, password });
-    } catch (error) {
+    } catch (error: unknown) {
       console.error(error);
-      setError(error?.message || ERROR_MESSAGES.AUTH.INVALID_CREDENTIALS);
+
+      if (axios.isAxiosError(error)) {
+        setError(
+          error.response?.data?.message ||
+            ERROR_MESSAGES.AUTH.INVALID_CREDENTIALS,
+        );
+        return;
+      }
+
+      setError(ERROR_MESSAGES.AUTH.INVALID_CREDENTIALS);
     }
   };
 

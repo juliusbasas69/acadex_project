@@ -1,23 +1,19 @@
-import { api } from "@/lib/api";
+import { api } from "@/lib/axios";
+import axios from "axios";
 import { ERROR_MESSAGES } from "@/contants/errors";
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+import { LoginRequest } from "@/types/Request";
 
 export const authService = {
-  login: async (data: { email: string; password: string }) => {
-    const res = await api(`${BASE_URL}/auth/login`, {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
+  async login(request: LoginRequest) {
+    try {
+      const { data: res } = await api.post("/auth/login", request);
+      return res;
+    } catch (error) {
+      const message = axios.isAxiosError(error)
+        ? error.response?.data.message
+        : null;
 
-    const result = await res.json();
-
-    if (!res.ok) {
-      throw new Error(
-        result.message || ERROR_MESSAGES.AUTH.INVALID_CREDENTIALS,
-      );
+      throw new Error(message || ERROR_MESSAGES.AUTH.INVALID_CREDENTIALS);
     }
-
-    return result;
   },
 };
